@@ -1,103 +1,266 @@
-<div class="layout-content-container flex flex-col max-w-[960px] flex-1">
-  <!-- HeroSection -->
-  <section class="@container py-10">
-    <div
-      class="flex flex-col-reverse gap-8 px-4 py-6 @[480px]:gap-12 @[864px]:flex-row @[864px]:items-center"
-    >
-      <!-- Text Content -->
-      <div class="flex flex-col gap-6 flex-1 @[864px]:pr-8">
-        <div class="flex flex-col gap-4 text-left">
-          <div
-            class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 w-fit"
-          >
-            <span class="w-2 h-2 rounded-full bg-green-500"></span>
-            <span class="text-primary text-xs font-bold uppercase tracking-wide"
-              >Disponible para trabajarr</span
-            >
-          </div>
-          <h1
-            class="text-[#111318] dark:text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl @[480px]:font-black"
-          >
-            Juan Pérez
-          </h1>
-          <p
-            class="text-[#616f89] dark:text-gray-300 text-lg font-normal leading-relaxed"
-          >
-            <span class="font-bold text-[#111318] dark:text-white"
-              >Desarrollador Full Stack &amp; UI Designer.</span
-            >
-            Especializado en crear experiencias digitales escalables y
-            atractivas. Transformo ideas complejas en productos simples y
-            elegantes.
-          </p>
-        </div>
-        <div class="flex flex-wrap gap-4 mt-2">
-          <a
-            href="#portafolio"
-            data-page="portafolio"
-            class="nav-link flex min-w-[120px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-6 bg-primary text-white text-base font-bold leading-normal tracking-[0.015em] shadow-lg shadow-blue-500/20 hover:bg-blue-700 transition-all hover:scale-105"
-          >
-            <span class="truncate">Ver Portafolio</span>
-            <span class="material-symbols-outlined ml-2 text-sm"
-              >arrow_forward</span
-            >
-          </a>
-        </div>
-        <!-- Social Proof / Tech Stack -->
-        <div class="mt-8 pt-8 border-t border-gray-100 dark:border-gray-800">
-          <p
-            class="text-xs font-medium text-gray-500 uppercase tracking-wider mb-4"
-          >
-            Experiencia con
-          </p>
-          <div
-            class="flex gap-6 opacity-60 grayscale hover:grayscale-0 transition-all duration-300"
-          >
-            <!-- Placeholder logos for tech stack -->
-            <div
-              class="h-6 w-auto flex items-center font-bold text-gray-400 text-sm"
-            >
-              <span class="material-symbols-outlined mr-1">javascript</span>
-              JavaScript
-            </div>
-            <div
-              class="h-6 w-auto flex items-center font-bold text-gray-400 text-sm"
-            >
-              <span class="material-symbols-outlined mr-1">html</span> React
-            </div>
-            <div
-              class="h-6 w-auto flex items-center font-bold text-gray-400 text-sm"
-            >
-              <span class="material-symbols-outlined mr-1">css</span> Tailwind
-            </div>
-            <div
-              class="h-6 w-auto flex items-center font-bold text-gray-400 text-sm"
-            >
-              <span class="material-symbols-outlined mr-1">database</span>
-              Node.js
-            </div>
-          </div>
-        </div>
+<style id="inicio-styles">
+  .font-western {
+    font-family: "Rye", cursive;
+  }
+  .font-typewriter {
+    font-family: "Special Elite", system-ui;
+  }
+  .font-elegant {
+    font-family: "Playfair Display", serif;
+  }
+
+  .invitation-container {
+    background-color: #fdf2f8;
+    background-image: radial-gradient(#fbcfe8 0.5px, transparent 0.5px);
+    background-size: 20px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cowhide-edge {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 60px;
+    background-color: #fce7f3;
+    mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23000' d='M44.5,-76.3C57.3,-69.4,67,-57.5,74.5,-44.5C82,-31.5,87.4,-17.3,87.7,-3C87.9,11.3,83,28.6,74.4,42.7C65.8,56.8,53.5,67.6,39.8,74.8C26.1,82,11.1,85.6,-3.4,91.5C-17.9,97.4,-31.9,105.6,-45.1,102.7C-58.3,99.9,-70.8,86.1,-79,71.2C-87.2,56.4,-91.1,40.6,-92,25.2C-92.9,9.8,-90.7,-5.2,-85.4,-19.1C-80.1,-33.1,-71.7,-46,-60.1,-53.4C-48.5,-60.8,-33.7,-62.7,-20.5,-69.3C-7.2,-75.9,4.5,-87.3,18.5,-89.2C32.5,-91.1,48.7,-83.5,44.5,-76.3Z' transform='translate(100 100)'/%3E%3C/svg%3E");
+  }
+
+  .left-edge {
+    left: -20px;
+  }
+  .right-edge {
+    right: -20px;
+  }
+
+  /* lluvia de estrellas */
+  #stars-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    overflow: hidden;
+  }
+
+  .star-dot {
+    position: absolute;
+    border-radius: 50%;
+    background: white;
+    opacity: 0;
+    animation: star-fall linear infinite;
+  }
+
+  @keyframes star-fall {
+    0% {
+      transform: translateY(-20px) scale(0);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 0.8;
+    }
+    100% {
+      transform: translateY(105vh) scale(1.2);
+      opacity: 0;
+    }
+  }
+
+  .star-dot.glow {
+    box-shadow:
+      0 0 4px 1px currentColor,
+      0 0 8px 2px currentColor;
+  }
+</style>
+
+<link
+  id="inicio-fonts"
+  href="https://fonts.googleapis.com/css2?family=Rye&family=Special+Elite&family=Playfair+Display:wght@700&display=swap"
+  rel="stylesheet"
+/>
+
+<div id="stars-overlay"></div>
+
+<div class="min-h-screen flex items-center justify-center p-4">
+  <main
+    class="invitation-container w-full max-w-md bg-white shadow-2xl rounded-lg relative border-8 border-pink-100 min-h-[850px] flex flex-col items-center text-center p-8"
+  >
+    <div class="cowhide-edge left-edge"></div>
+    <div class="cowhide-edge right-edge"></div>
+
+    <section class="mt-8 relative z-10 w-full">
+      <div class="flex justify-center mb-4 space-x-2">
+        <span class="text-pink-400">🚩</span>
+        <span class="text-pink-300">🚩</span>
+        <span class="text-pink-400">🚩</span>
       </div>
-      <!-- Image -->
-      <div
-        class="w-full @[864px]:w-1/2 flex justify-center @[864px]:justify-end"
+
+      <h2
+        class="font-western text-[#78350f] text-2xl tracking-widest uppercase mb-2"
       >
-        <div
-          class="relative w-full max-w-[400px] aspect-square rounded-2xl overflow-hidden shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500"
+        FELIZ CUMPLEAÑOS
+      </h2>
+
+      <div class="relative inline-block mt-4">
+        <div class="absolute -top-12 -left-8 transform -rotate-12 text-5xl">
+          🤠
+        </div>
+
+        <h1
+          class="font-western text-[#78350f] leading-none text-6xl break-words max-w-full"
         >
-          <div
-            class="absolute inset-0 bg-primary/10 z-10 hover:bg-transparent transition-colors"
-          ></div>
-          <div
-            class="w-full h-full bg-center bg-no-repeat bg-cover"
-            data-alt="Professional headshot of Juan Pérez standing in a modern, well-lit office environment"
-            style="
-              background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC3JLrC99wEmaVoMP66CNkOBkjxsBPkSuHTnXn4DW6ZCDLcT_Lr7MEkK_tpcZ_6LCF2svTbLl5bz6mCZOFPiy-GXzxz28FtmDixGHM3pSwRr6b3b4Z00znGtleNwCsYwZz02xH80lJAB7Aurv8cRoAGxzeXAIi-WP5mPNAwn7bj-0E5oZiC6BQeDkQs69S-IXuVMePimZvk1bhHXNZtcjzbAXcytA9oeGL7rbpHCMagctu2m2FbVBhCJ4-63SFpcQxjaAPluQXcS48');
-            "
-          ></div>
+          Daniela
+        </h1>
+
+        <div
+          class="absolute -top-2 -right-12 transform rotate-12 text-4xl opacity-80"
+        >
+          🦋
         </div>
       </div>
+
+      <p
+        class="font-typewriter text-[#78350f] mt-8 px-4 text-sm leading-relaxed max-w-xs mx-auto"
+      >
+        Quedas cordialmente invitado(a) a celebrar mi cumpleaños. Prepárate para
+        una noche llena de alegría, música y momentos inolvidables.
+      </p>
+    </section>
+
+    <section class="mt-12 w-full z-10">
+      <div
+        class="grid grid-cols-3 border-t border-b border-[#78350f] border-opacity-30 py-4 font-western text-[#78350f]"
+      >
+        <div class="border-r border-[#78350f] border-opacity-30">
+          <p class="text-xs uppercase">Día</p>
+          <p class="text-sm mt-1">14 de <br />marzo</p>
+        </div>
+
+        <div class="px-2 border-r border-[#78350f] border-opacity-30">
+          <p class="text-xs uppercase">Lugar</p>
+          <p class="text-[10px] mt-1 leading-tight">
+            Jr. Imalaya, Mz. E, Lt. 15
+          </p>
+        </div>
+
+        <div>
+          <p class="text-xs uppercase">Hora</p>
+          <p class="text-sm mt-1">6:00 <br />p.m.</p>
+        </div>
+      </div>
+
+      <div class="mt-8 px-4">
+        <p class="font-typewriter text-[#78350f] italic text-sm">
+          ¡No faltes, cowgirl! Que esta fiesta va a estar más sabrosa que un
+          asado al fuego lento
+        </p>
+      </div>
+    </section>
+
+    <section class="mt-auto mb-8 w-full z-10">
+      <div
+        class="bg-white/60 backdrop-blur-sm p-6 rounded-xl border border-pink-200"
+      >
+        <p class="font-western text-[#78350f] text-sm mb-4">
+          confirmar asistencia:
+        </p>
+
+        <div class="space-y-3">
+          <input
+            class="w-full rounded-md border border-pink-200 focus:border-pink-500 focus:outline-none bg-white/80 text-sm font-typewriter px-3 py-2"
+            placeholder="Tu Nombre"
+            type="text"
+          />
+
+          <select
+            class="w-full rounded-md border border-pink-200 focus:border-pink-500 focus:outline-none bg-white/80 text-sm font-typewriter px-3 py-2"
+          >
+            <option>1 Persona</option>
+            <option>2 Personas</option>
+            <option>3 Personas</option>
+            <option>Familia</option>
+          </select>
+
+          <button
+            onclick="alert('¡Confirmado! Nos vemos en el rancho 🤠')"
+            class="w-full bg-[#78350f] hover:bg-[#5d2a0c] text-white font-western py-3 rounded-md transition-colors shadow-md text-sm uppercase tracking-widest mt-2"
+          >
+            Confirmar
+          </button>
+        </div>
+
+        <p class="font-typewriter text-[#78350f] text-xs mt-4">
+          Esperamos verte pronto en la celebración.
+        </p>
+
+        <p class="font-western text-[#78350f] text-xs mt-2"></p>
+      </div>
+    </section>
+
+    <div
+      class="absolute bottom-4 left-4 text-4xl transform -rotate-12 opacity-40"
+    >
+      🌵
     </div>
-  </section>
+    <div
+      class="absolute bottom-10 right-4 text-5xl transform rotate-12 opacity-40"
+    >
+      👢
+    </div>
+    <div class="absolute top-1/2 left-2 text-2xl opacity-30">⭐</div>
+    <div class="absolute top-1/4 right-2 text-2xl opacity-30">⭐</div>
+  </main>
 </div>
+
+<script>
+  (function () {
+    const overlay = document.getElementById("stars-overlay");
+    if (!overlay) return;
+
+    const colors = [
+      "rgba(255,255,255,VAL)",
+      "rgba(220,200,255,VAL)",
+      "rgba(180,210,255,VAL)",
+      "rgba(255,230,160,VAL)",
+      "rgba(160,240,220,VAL)",
+      "rgba(255,180,200,VAL)",
+    ];
+
+    const TOTAL = 80;
+
+    function createStar() {
+      const el = document.createElement("div");
+      el.className = "star-dot" + (Math.random() > 0.6 ? " glow" : "");
+
+      const size = Math.random() * 3 + 1;
+      const left = Math.random() * 100;
+      const duration = Math.random() * 8 + 5;
+      const delay = Math.random() * duration * -1;
+
+      const colorTemplate = colors[Math.floor(Math.random() * colors.length)];
+      const alpha = (Math.random() * 0.6 + 0.4).toFixed(2);
+      const color = colorTemplate.replace("VAL", alpha);
+
+      el.style.cssText = `
+      width:${size}px;
+      height:${size}px;
+      left:${left}%;
+      top:-10px;
+      background:${color};
+      color:${color};
+      animation-duration:${duration}s;
+      animation-delay:${delay}s;
+    `;
+
+      overlay.appendChild(el);
+    }
+
+    for (let i = 0; i < TOTAL; i++) {
+      createStar();
+    }
+  })();
+</script>
