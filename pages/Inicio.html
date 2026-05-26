@@ -1,4 +1,5 @@
 <div
+  id="cm-root"
   style="
     display: flex;
     flex-direction: column;
@@ -12,8 +13,13 @@
     font-family: &quot;Baloo 2&quot;, cursive;
   "
 >
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Bubblegum+Sans&display=swap"
+    rel="stylesheet"
+  />
+
   <style>
-    @import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Bubblegum+Sans&display=swap");
     @keyframes cm-twinkle {
       from {
         opacity: 0.1;
@@ -92,7 +98,7 @@
     }
     @keyframes cm-spinRing {
       from {
-        transform: rotate(0deg);
+        transform: rotate(0);
       }
       to {
         transform: rotate(360deg);
@@ -100,7 +106,7 @@
     }
     @keyframes cm-spinRing2 {
       from {
-        transform: rotate(0deg);
+        transform: rotate(0);
       }
       to {
         transform: rotate(-360deg);
@@ -113,6 +119,17 @@
       }
       50% {
         transform: translateY(-8px) scale(1.03);
+      }
+    }
+    @keyframes cm-party-pop {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.12);
+      }
+      100% {
+        transform: scale(1);
       }
     }
     .cm-star {
@@ -171,13 +188,13 @@
       bottom: 20px;
       right: 20px;
       z-index: 9999;
-      width: 52px;
-      height: 52px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
       background: linear-gradient(135deg, #ff6b9d, #b39ddb);
       border: none;
       cursor: pointer;
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -191,6 +208,20 @@
     .cm-mbtn.playing {
       animation: cm-pulse 1.5s ease-in-out infinite;
     }
+    .cm-mbtn-label {
+      position: fixed;
+      bottom: 22px;
+      right: 84px;
+      z-index: 9999;
+      font-family: "Bubblegum Sans", cursive;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.7);
+      background: rgba(0, 0, 0, 0.4);
+      padding: 4px 10px;
+      border-radius: 20px;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
     .cm-h1 {
       font-family: "Bubblegum Sans", cursive;
       font-size: clamp(2.6rem, 10vw, 3.8rem);
@@ -202,7 +233,6 @@
       filter: drop-shadow(0 2px 8px rgba(255, 107, 157, 0.4));
       margin: 0 0 6px;
     }
-    /* Photo frame */
     .cm-photo-wrap {
       position: relative;
       width: 170px;
@@ -273,8 +303,170 @@
       color: #ffd93d;
       text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
     }
+    .cm-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 12px 14px 8px;
+      min-width: 64px;
+    }
+    .cm-val {
+      font-family: "Bubblegum Sans", cursive;
+      font-size: 2rem;
+      line-height: 1;
+      color: #fff;
+      min-width: 2.2ch;
+      text-align: center;
+    }
+    .cm-lbl {
+      font-size: 0.65rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.55);
+      margin-top: 4px;
+    }
+    .cm-sep {
+      font-family: "Bubblegum Sans", cursive;
+      font-size: 2rem;
+      color: #ff6b9d;
+      padding-top: 10px;
+    }
+    /* Modal música */
+    #cm-music-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(5, 3, 20, 0.85);
+      backdrop-filter: blur(8px);
+      animation: cm-fadeIn 0.3s ease;
+    }
+    @keyframes cm-fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    @keyframes cm-modalPop {
+      0% {
+        transform: scale(0.7);
+        opacity: 0;
+      }
+      70% {
+        transform: scale(1.05);
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+    #cm-music-modal .cm-mbox {
+      background: linear-gradient(135deg, #1a0a3c, #2d0e5a);
+      border: 2px solid rgba(255, 215, 61, 0.4);
+      border-radius: 28px;
+      padding: 36px 28px 28px;
+      max-width: 320px;
+      width: 90%;
+      text-align: center;
+      box-shadow:
+        0 0 60px rgba(179, 157, 219, 0.3),
+        0 20px 60px rgba(0, 0, 0, 0.6);
+      animation: cm-modalPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    #cm-music-modal .cm-micon {
+      font-size: 3.5rem;
+      display: block;
+      margin-bottom: 12px;
+      animation: cm-bounce 1.4s ease-in-out infinite;
+    }
+    #cm-music-modal h2 {
+      font-family: "Bubblegum Sans", cursive;
+      font-size: 1.5rem;
+      color: #ffd93d;
+      margin: 0 0 8px;
+    }
+    #cm-music-modal p {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin: 0 0 24px;
+      line-height: 1.5;
+    }
+    .cm-mbtns {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+    .cm-mbtns button {
+      flex: 1;
+      max-width: 130px;
+      padding: 12px 0;
+      border: none;
+      border-radius: 50px;
+      font-family: "Bubblegum Sans", cursive;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+    .cm-mbtns button:hover {
+      transform: scale(1.07);
+    }
+    .cm-btn-yes {
+      background: linear-gradient(135deg, #ff6b9d, #b39ddb);
+      color: #fff;
+      box-shadow: 0 4px 18px rgba(255, 107, 157, 0.45);
+    }
+    .cm-btn-no {
+      background: rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    }
+    #cm-party-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      pointer-events: none;
+      background: radial-gradient(
+        ellipse at center,
+        rgba(255, 215, 61, 0.08),
+        transparent 70%
+      );
+    }
+    .cm-party-active #cm-party-overlay {
+      display: block;
+    }
+    .cm-party-active .cm-val {
+      animation: cm-party-pop 0.6s ease-in-out infinite;
+    }
+    .cm-party-active .cm-cell {
+      background: rgba(255, 215, 61, 0.15);
+      border-color: rgba(255, 215, 61, 0.4);
+    }
   </style>
 
+  <!-- Modal música -->
+  <div id="cm-music-modal">
+    <div class="cm-mbox">
+      <span class="cm-micon">🎶</span>
+      <h2>¡Música de fiesta!</h2>
+      <p>
+        ¿Quieres activar la música de cumpleaños para celebrar a Mario? 🎂🎉
+      </p>
+      <div class="cm-mbtns">
+        <button class="cm-btn-yes" id="cm-modal-yes">🎵 ¡Sí!</button>
+        <button class="cm-btn-no" id="cm-modal-no">No, gracias</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fondo partículas -->
   <div
     id="cm-fx"
     style="
@@ -285,8 +477,13 @@
       overflow: hidden;
     "
   ></div>
-  <button class="cm-mbtn" id="cm-mb">🎵</button>
+  <div id="cm-party-overlay"></div>
 
+  <!-- Botón música -->
+  <div class="cm-mbtn-label" id="cm-mlabel" style="opacity: 0"></div>
+  <button class="cm-mbtn" id="cm-mb" title="Música">🎵</button>
+
+  <!-- Contenido -->
   <div
     style="
       position: relative;
@@ -362,7 +559,7 @@
       <div class="cm-emoji">🎈 🎁 🎉 🥳 🎈</div>
     </div>
 
-    <!-- Foto del cumpleañero -->
+    <!-- Foto -->
     <div
       style="
         display: flex;
@@ -417,17 +614,28 @@
       "
     >
       <p
+        id="cm-countdown-title"
         style="
           font-family: &quot;Bubblegum Sans&quot;, cursive;
           font-size: 1rem;
           color: #ffd93d;
           letter-spacing: 2px;
           text-transform: uppercase;
-          margin: 0 0 16px;
+          margin: 0 0 8px;
         "
       >
         ⏳ Faltan para la fiesta
       </p>
+      <p
+        id="cm-debug"
+        style="
+          font-size: 0.6rem;
+          color: rgba(255, 255, 255, 0.3);
+          margin: 0 0 12px;
+          letter-spacing: 0.5px;
+          font-family: monospace;
+        "
+      ></p>
       <div
         style="
           display: flex;
@@ -437,168 +645,24 @@
           align-items: flex-start;
         "
       >
-        <div
-          style="
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 14px;
-            padding: 12px 14px 8px;
-            min-width: 64px;
-          "
-        >
-          <span
-            id="cm-d"
-            style="
-              font-family: &quot;Bubblegum Sans&quot;, cursive;
-              font-size: 2rem;
-              line-height: 1;
-              color: #fff;
-              min-width: 2.2ch;
-              text-align: center;
-            "
-            >00</span
-          ><span
-            style="
-              font-size: 0.65rem;
-              letter-spacing: 1.5px;
-              text-transform: uppercase;
-              color: rgba(255, 255, 255, 0.55);
-              margin-top: 4px;
-            "
-            >Días</span
-          >
+        <div class="cm-cell">
+          <span id="cm-d" class="cm-val">00</span
+          ><span class="cm-lbl">Días</span>
         </div>
-        <span
-          style="
-            font-family: &quot;Bubblegum Sans&quot;, cursive;
-            font-size: 2rem;
-            color: #ff6b9d;
-            padding-top: 10px;
-          "
-          >:</span
-        >
-        <div
-          style="
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 14px;
-            padding: 12px 14px 8px;
-            min-width: 64px;
-          "
-        >
-          <span
-            id="cm-h"
-            style="
-              font-family: &quot;Bubblegum Sans&quot;, cursive;
-              font-size: 2rem;
-              line-height: 1;
-              color: #fff;
-              min-width: 2.2ch;
-              text-align: center;
-            "
-            >00</span
-          ><span
-            style="
-              font-size: 0.65rem;
-              letter-spacing: 1.5px;
-              text-transform: uppercase;
-              color: rgba(255, 255, 255, 0.55);
-              margin-top: 4px;
-            "
-            >Horas</span
-          >
+        <span class="cm-sep">:</span>
+        <div class="cm-cell">
+          <span id="cm-h" class="cm-val">00</span
+          ><span class="cm-lbl">Horas</span>
         </div>
-        <span
-          style="
-            font-family: &quot;Bubblegum Sans&quot;, cursive;
-            font-size: 2rem;
-            color: #ff6b9d;
-            padding-top: 10px;
-          "
-          >:</span
-        >
-        <div
-          style="
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 14px;
-            padding: 12px 14px 8px;
-            min-width: 64px;
-          "
-        >
-          <span
-            id="cm-m"
-            style="
-              font-family: &quot;Bubblegum Sans&quot;, cursive;
-              font-size: 2rem;
-              line-height: 1;
-              color: #fff;
-              min-width: 2.2ch;
-              text-align: center;
-            "
-            >00</span
-          ><span
-            style="
-              font-size: 0.65rem;
-              letter-spacing: 1.5px;
-              text-transform: uppercase;
-              color: rgba(255, 255, 255, 0.55);
-              margin-top: 4px;
-            "
-            >Mins</span
-          >
+        <span class="cm-sep">:</span>
+        <div class="cm-cell">
+          <span id="cm-m" class="cm-val">00</span
+          ><span class="cm-lbl">Mins</span>
         </div>
-        <span
-          style="
-            font-family: &quot;Bubblegum Sans&quot;, cursive;
-            font-size: 2rem;
-            color: #ff6b9d;
-            padding-top: 10px;
-          "
-          >:</span
-        >
-        <div
-          style="
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 14px;
-            padding: 12px 14px 8px;
-            min-width: 64px;
-          "
-        >
-          <span
-            id="cm-s"
-            style="
-              font-family: &quot;Bubblegum Sans&quot;, cursive;
-              font-size: 2rem;
-              line-height: 1;
-              color: #fff;
-              min-width: 2.2ch;
-              text-align: center;
-            "
-            >00</span
-          ><span
-            style="
-              font-size: 0.65rem;
-              letter-spacing: 1.5px;
-              text-transform: uppercase;
-              color: rgba(255, 255, 255, 0.55);
-              margin-top: 4px;
-            "
-            >Segs</span
-          >
+        <span class="cm-sep">:</span>
+        <div class="cm-cell">
+          <span id="cm-s" class="cm-val">00</span
+          ><span class="cm-lbl">Segs</span>
         </div>
       </div>
     </div>
@@ -882,16 +946,43 @@
           "s;";
         fx.appendChild(p);
       }
+
+      /* Countdown
+       Fiesta: 26 mayo 2026 18:00 hora Arequipa (UTC-5)
+       = 26 mayo 2026 23:00 UTC
+       Usar UTC timestamp evita cualquier problema de zona horaria del dispositivo.
+    */
+      var CM_TARGET = new Date(Date.UTC(2026, 4, 26, 23, 0, 0)); // 18:00 Perú (UTC-5) = 23:00 UTC
+
       function pad(n) {
         return String(n).padStart(2, "0");
       }
-      function tick() {
-        var diff = new Date("2026-05-26T18:00:00") - new Date();
+
+      function setPartyMode() {
+        document.getElementById("cm-countdown-title").textContent =
+          "🎉 ¡La fiesta es AHORA!";
+        document.getElementById("cm-d").textContent = "🎉";
+        document.getElementById("cm-h").textContent = "🎈";
+        document.getElementById("cm-m").textContent = "🥳";
+        document.getElementById("cm-s").textContent = "🎂";
+        document.getElementById("cm-root").classList.add("cm-party-active");
+      }
+
+      function cmTick() {
+        var now = Date.now();
+        var diff = CM_TARGET - now;
+        var dbg = document.getElementById("cm-debug");
+        if (dbg)
+          dbg.textContent =
+            "Ahora: " +
+            new Date(now).toISOString() +
+            " | Target: " +
+            CM_TARGET.toISOString() +
+            " | diff: " +
+            Math.round(diff / 1000) +
+            "s";
         if (diff <= 0) {
-          document.getElementById("cm-d").textContent = "🎉";
-          document.getElementById("cm-h").textContent = "🎈";
-          document.getElementById("cm-m").textContent = "🥳";
-          document.getElementById("cm-s").textContent = "🎂";
+          setPartyMode();
           return;
         }
         document.getElementById("cm-d").textContent = pad(
@@ -907,86 +998,155 @@
           Math.floor((diff % 60000) / 1000),
         );
       }
-      tick();
-      setInterval(tick, 1000);
+
+      cmTick();
+      var iv = setInterval(function () {
+        if (CM_TARGET - Date.now() <= 0) {
+          setPartyMode();
+          clearInterval(iv);
+          return;
+        }
+        cmTick();
+      }, 1000);
+
+      /* Música */
+      var AudioCtx = window.AudioContext || window.webkitAudioContext;
       var ctx = null,
-        gn = null,
-        on = false,
-        ol = [];
-      var mel = [
-        [261.63, 0.4],
-        [261.63, 0.2],
-        [293.66, 0.6],
-        [261.63, 0.6],
-        [349.23, 0.6],
-        [329.63, 1.2],
-        [261.63, 0.4],
-        [261.63, 0.2],
-        [293.66, 0.6],
-        [261.63, 0.6],
-        [392, 0.6],
-        [349.23, 1.2],
-        [261.63, 0.4],
-        [261.63, 0.2],
-        [523.25, 0.6],
-        [440, 0.6],
-        [349.23, 0.6],
-        [329.63, 0.6],
-        [293.66, 1.2],
-        [466.16, 0.4],
-        [466.16, 0.2],
-        [440, 0.6],
-        [349.23, 0.6],
-        [392, 0.6],
-        [349.23, 1.4],
+        masterGain = null,
+        playing = false,
+        loopTimer = null;
+      var NOTAS = [
+        [264, 0.375],
+        [264, 0.125],
+        [296, 0.5],
+        [264, 0.5],
+        [352, 0.5],
+        [330, 1],
+        [264, 0.375],
+        [264, 0.125],
+        [296, 0.5],
+        [264, 0.5],
+        [396, 0.5],
+        [352, 1],
+        [264, 0.375],
+        [264, 0.125],
+        [528, 0.5],
+        [440, 0.5],
+        [352, 0.5],
+        [330, 0.5],
+        [296, 1],
+        [466, 0.375],
+        [466, 0.125],
+        [440, 0.5],
+        [352, 0.5],
+        [396, 0.5],
+        [352, 1.25],
       ];
-      function play() {
-        if (!on) return;
+      function playMelody() {
+        if (!playing || !ctx) return;
         var t = ctx.currentTime + 0.05,
           tot = 0;
-        mel.forEach(function (n) {
-          var g = ctx.createGain();
-          g.connect(gn);
+        NOTAS.forEach(function (n) {
+          var f = n[0],
+            d = n[1];
           var o = ctx.createOscillator();
           o.type = "triangle";
-          o.frequency.setValueAtTime(n[0], t + tot);
-          o.connect(g);
+          o.frequency.setValueAtTime(f, t + tot);
+          var g = ctx.createGain();
           g.gain.setValueAtTime(0, t + tot);
-          g.gain.linearRampToValueAtTime(0.18, t + tot + 0.03);
-          g.gain.linearRampToValueAtTime(0.14, t + tot + n[1] - 0.05);
-          g.gain.linearRampToValueAtTime(0, t + tot + n[1]);
+          g.gain.linearRampToValueAtTime(0.22, t + tot + 0.03);
+          g.gain.setValueAtTime(0.18, t + tot + d * 0.7);
+          g.gain.linearRampToValueAtTime(0, t + tot + d - 0.02);
+          o.connect(g);
+          g.connect(masterGain);
           o.start(t + tot);
-          o.stop(t + tot + n[1] + 0.05);
-          ol.push(o);
-          tot += n[1];
+          o.stop(t + tot + d);
+          var o2 = ctx.createOscillator();
+          o2.type = "sine";
+          o2.frequency.setValueAtTime(f * 1.5, t + tot);
+          var g2 = ctx.createGain();
+          g2.gain.setValueAtTime(0, t + tot);
+          g2.gain.linearRampToValueAtTime(0.07, t + tot + 0.04);
+          g2.gain.linearRampToValueAtTime(0, t + tot + d - 0.02);
+          o2.connect(g2);
+          g2.connect(masterGain);
+          o2.start(t + tot);
+          o2.stop(t + tot + d);
+          tot += d;
         });
-        setTimeout(function () {
-          if (on) play();
-        }, tot * 1000);
+        loopTimer = setTimeout(
+          function () {
+            if (playing) playMelody();
+          },
+          (tot + 0.8) * 1000,
+        );
+      }
+      function stopMusic() {
+        playing = false;
+        if (loopTimer) {
+          clearTimeout(loopTimer);
+          loopTimer = null;
+        }
+        if (ctx) masterGain.gain.setTargetAtTime(0, ctx.currentTime, 0.3);
+      }
+      function startMusic() {
+        if (!ctx) {
+          ctx = new AudioCtx();
+          masterGain = ctx.createGain();
+          masterGain.gain.setValueAtTime(0.7, ctx.currentTime);
+          masterGain.connect(ctx.destination);
+        } else {
+          masterGain.gain.cancelScheduledValues(ctx.currentTime);
+          masterGain.gain.setValueAtTime(0.7, ctx.currentTime);
+        }
+        if (ctx.state === "suspended") {
+          ctx.resume().then(function () {
+            playing = true;
+            playMelody();
+          });
+        } else {
+          playing = true;
+          playMelody();
+        }
       }
       var mb = document.getElementById("cm-mb");
-      mb.addEventListener("click", function () {
-        if (!ctx) {
-          ctx = new (window.AudioContext || window.webkitAudioContext)();
-          gn = ctx.createGain();
-          gn.gain.value = 0.6;
-          gn.connect(ctx.destination);
-        }
-        if (!on) {
-          on = true;
+      var ml = document.getElementById("cm-mlabel");
+
+      /* ── Modal autoplay ── */
+      var modal = document.getElementById("cm-music-modal");
+      function closeModal(withMusic) {
+        modal.style.transition = "opacity .25s";
+        modal.style.opacity = "0";
+        setTimeout(function () {
+          modal.style.display = "none";
+        }, 250);
+        if (withMusic) {
+          startMusic();
           mb.textContent = "🔇";
           mb.classList.add("playing");
-          play();
+        }
+      }
+      document
+        .getElementById("cm-modal-yes")
+        .addEventListener("click", function () {
+          closeModal(true);
+        });
+      document
+        .getElementById("cm-modal-no")
+        .addEventListener("click", function () {
+          closeModal(false);
+        });
+
+      /* ── Botón flotante toggle ── */
+      mb.addEventListener("click", function () {
+        if (!playing) {
+          startMusic();
+          mb.textContent = "🔇";
+          mb.classList.add("playing");
         } else {
-          on = false;
+          stopMusic();
           mb.textContent = "🎵";
           mb.classList.remove("playing");
-          ol.forEach(function (o) {
-            try {
-              o.stop();
-            } catch (e) {}
-          });
-          ol = [];
         }
       });
     })();

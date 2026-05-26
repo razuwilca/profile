@@ -20,8 +20,10 @@ class Router {
   }
 
   init() {
-    // Cargar página inicial
-    this.loadPage("inicio");
+    // Cargar página inicial basada en hash o default
+    const hash = window.location.hash.replace("#", "");
+    const initialPage = hash && this.pageFiles[hash] ? hash : "inicio";
+    this.loadPage(initialPage);
 
     // Escuchar clicks en los enlaces de navegación
     this.navLinks.forEach((link) => {
@@ -29,16 +31,17 @@ class Router {
         e.preventDefault();
         const page = link.getAttribute("data-page");
         this.navigate(page);
-
         // Cerrar menú móvil si está abierto
-        this.mobileMenu.classList.add("hidden");
+        if (this.mobileMenu) this.mobileMenu.classList.add("hidden");
       });
     });
 
-    // Manejar botón de menú móvil
-    this.mobileMenuBtn.addEventListener("click", () => {
-      this.mobileMenu.classList.toggle("hidden");
-    });
+    // Manejar botón de menú móvil — solo si existe
+    if (this.mobileMenuBtn && this.mobileMenu) {
+      this.mobileMenuBtn.addEventListener("click", () => {
+        this.mobileMenu.classList.toggle("hidden");
+      });
+    }
 
     // Manejar navegación con botones del navegador
     window.addEventListener("popstate", (e) => {
@@ -49,42 +52,39 @@ class Router {
 
   navigate(page) {
     this.loadPage(page);
-
-    // Actualizar URL sin recargar la página
     const url = page === "inicio" ? "/" : `#${page}`;
     history.pushState({ page }, "", url);
   }
 
   async loadPage(page, updateHistory = true) {
-    // Obtener ruta del archivo
     const pageFile = this.pageFiles[page] || this.pageFiles["inicio"];
 
     try {
-      // Animar salida
       this.contentElement.style.opacity = "0";
 
-      // Cargar contenido del archivo HTML
       const response = await fetch(pageFile);
-
-      if (!response.ok) {
-        throw new Error(`Error al cargar ${pageFile}`);
-      }
+      if (!response.ok) throw new Error(`Error al cargar ${pageFile}`);
 
       const content = await response.text();
 
-      // Animar entrada después de un breve delay
       setTimeout(() => {
         this.contentElement.innerHTML = content;
         this.contentElement.style.opacity = "1";
-
-        // Scroll al inicio
         window.scrollTo({ top: 0, behavior: "smooth" });
-
-        // Actualizar enlaces activos
         this.updateActiveLink(page);
-
-        // Re-bind event listeners para enlaces dentro del contenido cargado
         this.bindContentLinks();
+
+        // Ejecutar scripts embebidos en el contenido cargado
+        this.contentElement.querySelectorAll("script").forEach((oldScript) => {
+          const newScript = document.createElement("script");
+          if (oldScript.src) {
+            newScript.src = oldScript.src;
+          } else {
+            newScript.textContent = oldScript.textContent;
+          }
+          document.body.appendChild(newScript);
+          oldScript.remove();
+        });
       }, 150);
     } catch (error) {
       console.error("Error cargando página:", error);
@@ -92,7 +92,7 @@ class Router {
         <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
           <div class="flex flex-col gap-6 px-4 py-10 text-center">
             <h1 class="text-red-500 text-2xl font-bold">Error al cargar la página</h1>
-            <p class="text-gray-600 dark:text-gray-400">No se pudo cargar el contenido de ${page}</p>
+            <p class="text-gray-600 dark:text-gray-400">No se pudo cargar el contenido de "${page}"</p>
           </div>
         </div>
       `;
@@ -101,16 +101,12 @@ class Router {
   }
 
   bindContentLinks() {
-    // Buscar todos los enlaces con clase nav-link dentro del contenido cargado
     const contentLinks = this.contentElement.querySelectorAll(".nav-link");
-
     contentLinks.forEach((link) => {
       link.addEventListener("click", (e) => {
         e.preventDefault();
         const page = link.getAttribute("data-page");
-        if (page) {
-          this.navigate(page);
-        }
+        if (page) this.navigate(page);
       });
     });
   }
@@ -131,8 +127,6 @@ class Router {
 // Inicializar router cuando el DOM esté listo
 document.addEventListener("DOMContentLoaded", () => {
   new Router();
-
-  // Agregar transición suave al contenido
   const content = document.getElementById("app-content");
-  content.style.transition = "opacity 0.15s ease-in-out";
+  if (content) content.style.transition = "opacity 0.15s ease-in-out";
 });
