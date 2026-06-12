@@ -334,7 +334,6 @@
       color: #ff6b9d;
       padding-top: 10px;
     }
-    /* Modal música */
     #cm-music-modal {
       position: fixed;
       inset: 0;
@@ -451,13 +450,12 @@
     }
   </style>
 
-  <!-- Modal música -->
   <div id="cm-music-modal">
     <div class="cm-mbox">
       <span class="cm-micon">🎶</span>
       <h2>¡Música de fiesta!</h2>
       <p>
-        ¿Quieres activar la música de cumpleaños para celebrar a Mario? 🎂🎉
+        ¿Quieres activar la música de cumpleaños para celebrar a Alexa? 🎂🎉
       </p>
       <div class="cm-mbtns">
         <button class="cm-btn-yes" id="cm-modal-yes">🎵 ¡Sí!</button>
@@ -466,7 +464,6 @@
     </div>
   </div>
 
-  <!-- Fondo partículas -->
   <div
     id="cm-fx"
     style="
@@ -479,11 +476,9 @@
   ></div>
   <div id="cm-party-overlay"></div>
 
-  <!-- Botón música -->
   <div class="cm-mbtn-label" id="cm-mlabel" style="opacity: 0"></div>
   <button class="cm-mbtn" id="cm-mb" title="Música">🎵</button>
 
-  <!-- Contenido -->
   <div
     style="
       position: relative;
@@ -498,7 +493,6 @@
       gap: 24px;
     "
   >
-    <!-- Hero -->
     <div
       style="
         width: 100%;
@@ -542,9 +536,9 @@
           margin: 0 0 4px;
         "
       >
-        ¡Estás invitado!
+        ¡Estás invitad@!
       </p>
-      <h1 class="cm-h1">¡Feliz<br />Cumple<br />Mario!</h1>
+      <h1 class="cm-h1">¡Feliz<br />Cumple<br />Alexa!</h1>
       <p
         style="
           font-size: 1.35rem;
@@ -559,7 +553,6 @@
       <div class="cm-emoji">🎈 🎁 🎉 🥳 🎈</div>
     </div>
 
-    <!-- Foto -->
     <div
       style="
         display: flex;
@@ -575,8 +568,8 @@
         <img
           id="cm-photo"
           class="cm-photo-img"
-          src="assets/image/foto.png"
-          alt="Mario el cumpleañero"
+          src="../assets/image/fiesta.png"
+          alt="Alexa el cumpleañera"
           onerror="
             this.style.display = 'none';
             document.getElementById('cm-photo-fb').style.display = 'flex';
@@ -585,7 +578,7 @@
         <div class="cm-photo-fallback" id="cm-photo-fb" style="display: none">
           🧒
         </div>
-        <span class="cm-photo-label">⭐ Mario ⭐</span>
+        <span class="cm-photo-label">⭐ Alexa ⭐</span>
       </div>
       <p
         style="
@@ -600,7 +593,6 @@
       </p>
     </div>
 
-    <!-- Countdown -->
     <div
       style="
         width: 100%;
@@ -669,7 +661,6 @@
 
     <div class="cm-cake">🎂</div>
 
-    <!-- Info -->
     <div
       style="
         width: 100%;
@@ -716,7 +707,7 @@
             "
             >Fecha</strong
           ><span style="font-size: 1.05rem; color: #fff; font-weight: 600"
-            >26 de Mayo, 2026</span
+            >28 de Junio, 2026</span
           >
         </div>
       </div>
@@ -759,7 +750,7 @@
             "
             >Hora</strong
           ><span style="font-size: 1.05rem; color: #fff; font-weight: 600"
-            >6:00 PM en adelante</span
+            >7:00 PM en adelante</span
           >
         </div>
       </div>
@@ -808,46 +799,74 @@
       </div>
     </div>
 
-    <!-- App promo -->
     <div
       style="
         width: 100%;
-        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-        border: 1.5px solid rgba(79, 195, 247, 0.3);
+        background: linear-gradient(
+          135deg,
+          rgba(79, 195, 247, 0.1),
+          rgba(255, 107, 157, 0.08)
+        );
+        border: 1.5px solid rgba(79, 195, 247, 0.25);
         border-radius: 22px;
         padding: 20px;
-        text-align: center;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        backdrop-filter: blur(8px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
       "
     >
       <p
         style="
-          font-size: 0.92rem;
-          color: rgba(255, 255, 255, 0.8);
-          line-height: 1.6;
-          margin: 0 0 14px;
+          font-family: &quot;Bubblegum Sans&quot;, cursive;
+          font-size: 1rem;
+          color: #4fc3f7;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          margin: 0;
+          text-align: center;
         "
       >
-        Descarga la app <strong style="color: #4fc3f7">JailyzGo</strong> para
-        más información sobre la fiesta
+        📍 Cómo llegar
       </p>
+      <div
+        style="
+          width: 100%;
+          border-radius: 16px;
+          overflow: hidden;
+          border: 1px solid rgba(255, 255, 255, 0.12);
+        "
+      >
+        <iframe
+          src="https://www.google.com/maps?q=-13.1603789,-74.2257816&z=16&output=embed"
+          width="100%"
+          height="220"
+          style="border: 0; display: block"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        >
+        </iframe>
+      </div>
       <a
-        href="https://play.google.com/store/apps/details?id=com.teofilamario.jailyzgo"
+        href="https://www.google.com/maps?q=-13.1603789,-74.2257816"
         target="_blank"
         style="
           display: inline-flex;
           align-items: center;
+          justify-content: center;
           gap: 8px;
           background: linear-gradient(135deg, #4fc3f7, #0288d1);
           color: #fff;
           text-decoration: none;
           font-family: &quot;Bubblegum Sans&quot;, cursive;
-          font-size: 1rem;
-          padding: 10px 22px;
+          font-size: 0.95rem;
+          padding: 10px 20px;
           border-radius: 50px;
           box-shadow: 0 4px 18px rgba(79, 195, 247, 0.4);
         "
-        >▶ Play Store</a
+        >🗺️ Abrir en Google Maps</a
       >
     </div>
 
@@ -948,11 +967,10 @@
       }
 
       /* Countdown
-       Fiesta: 26 mayo 2026 18:00 hora Arequipa (UTC-5)
-       = 26 mayo 2026 23:00 UTC
-       Usar UTC timestamp evita cualquier problema de zona horaria del dispositivo.
-    */
-      var CM_TARGET = new Date(Date.UTC(2026, 4, 26, 23, 0, 0)); // 18:00 Perú (UTC-5) = 23:00 UTC
+       Fiesta: 28 junio 2026 19:00 hora Perú (UTC-5)
+       = 29 junio 2026 00:00 UTC
+       Usar UTC timestamp evita cualquier problema de zona horaria del dispositivo. */
+      var CM_TARGET = new Date(Date.UTC(2026, 5, 29, 0, 0, 0)); // 19:00 Perú 28-jun (UTC-5) = 00:00 UTC 29-jun
 
       function pad(n) {
         return String(n).padStart(2, "0");
@@ -1112,7 +1130,6 @@
       var mb = document.getElementById("cm-mb");
       var ml = document.getElementById("cm-mlabel");
 
-      /* ── Modal autoplay ── */
       var modal = document.getElementById("cm-music-modal");
       function closeModal(withMusic) {
         modal.style.transition = "opacity .25s";
@@ -1137,7 +1154,6 @@
           closeModal(false);
         });
 
-      /* ── Botón flotante toggle ── */
       mb.addEventListener("click", function () {
         if (!playing) {
           startMusic();
