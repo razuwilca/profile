@@ -450,6 +450,11 @@
     }
   </style>
 
+  <!-- 🎵 CAMBIO 1: Elemento de audio MP3 con loop -->
+  <audio id="cm-audio" loop preload="auto">
+    <source src="../assets/audio/fiesta.mp3" type="audio/mpeg" />
+  </audio>
+
   <div id="cm-music-modal">
     <div class="cm-mbox">
       <span class="cm-micon">🎶</span>
@@ -568,7 +573,7 @@
         <img
           id="cm-photo"
           class="cm-photo-img"
-          src="assets/image/fiesta.png"
+          src="../assets/image/fiesta.png"
           alt="Alexa el cumpleañera"
           onerror="
             this.style.display = 'none';
@@ -706,7 +711,8 @@
               margin-bottom: 2px;
             "
             >Fecha</strong
-          ><span style="font-size: 1.05rem; color: #fff; font-weight: 600"
+          >
+          <span style="font-size: 1.05rem; color: #fff; font-weight: 600"
             >28 de Junio, 2026</span
           >
         </div>
@@ -749,7 +755,8 @@
               margin-bottom: 2px;
             "
             >Hora</strong
-          ><span style="font-size: 1.05rem; color: #fff; font-weight: 600"
+          >
+          <span style="font-size: 1.05rem; color: #fff; font-weight: 600"
             >7:00 PM en adelante</span
           >
         </div>
@@ -792,7 +799,8 @@
               margin-bottom: 2px;
             "
             >Lugar</strong
-          ><span style="font-size: 1.05rem; color: #fff; font-weight: 600"
+          >
+          <span style="font-size: 1.05rem; color: #fff; font-weight: 600"
             >¡Te esperamos! 🎊</span
           >
         </div>
@@ -846,8 +854,7 @@
           allowfullscreen=""
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
-        >
-        </iframe>
+        ></iframe>
       </div>
       <a
         href="https://www.google.com/maps?q=-13.1603789,-74.2257816"
@@ -966,11 +973,8 @@
         fx.appendChild(p);
       }
 
-      /* Countdown
-       Fiesta: 28 junio 2026 19:00 hora Perú (UTC-5)
-       = 29 junio 2026 00:00 UTC
-       Usar UTC timestamp evita cualquier problema de zona horaria del dispositivo. */
-      var CM_TARGET = new Date(Date.UTC(2026, 5, 29, 0, 0, 0)); // 19:00 Perú 28-jun (UTC-5) = 00:00 UTC 29-jun
+      /* Countdown — Fiesta: 28 junio 2026 19:00 hora Perú (UTC-5) = 29 jun 00:00 UTC */
+      var CM_TARGET = new Date(Date.UTC(2026, 5, 29, 0, 0, 0));
 
       function pad(n) {
         return String(n).padStart(2, "0");
@@ -1027,109 +1031,24 @@
         cmTick();
       }, 1000);
 
-      /* Música */
-      var AudioCtx = window.AudioContext || window.webkitAudioContext;
-      var ctx = null,
-        masterGain = null,
-        playing = false,
-        loopTimer = null;
-      var NOTAS = [
-        [264, 0.375],
-        [264, 0.125],
-        [296, 0.5],
-        [264, 0.5],
-        [352, 0.5],
-        [330, 1],
-        [264, 0.375],
-        [264, 0.125],
-        [296, 0.5],
-        [264, 0.5],
-        [396, 0.5],
-        [352, 1],
-        [264, 0.375],
-        [264, 0.125],
-        [528, 0.5],
-        [440, 0.5],
-        [352, 0.5],
-        [330, 0.5],
-        [296, 1],
-        [466, 0.375],
-        [466, 0.125],
-        [440, 0.5],
-        [352, 0.5],
-        [396, 0.5],
-        [352, 1.25],
-      ];
-      function playMelody() {
-        if (!playing || !ctx) return;
-        var t = ctx.currentTime + 0.05,
-          tot = 0;
-        NOTAS.forEach(function (n) {
-          var f = n[0],
-            d = n[1];
-          var o = ctx.createOscillator();
-          o.type = "triangle";
-          o.frequency.setValueAtTime(f, t + tot);
-          var g = ctx.createGain();
-          g.gain.setValueAtTime(0, t + tot);
-          g.gain.linearRampToValueAtTime(0.22, t + tot + 0.03);
-          g.gain.setValueAtTime(0.18, t + tot + d * 0.7);
-          g.gain.linearRampToValueAtTime(0, t + tot + d - 0.02);
-          o.connect(g);
-          g.connect(masterGain);
-          o.start(t + tot);
-          o.stop(t + tot + d);
-          var o2 = ctx.createOscillator();
-          o2.type = "sine";
-          o2.frequency.setValueAtTime(f * 1.5, t + tot);
-          var g2 = ctx.createGain();
-          g2.gain.setValueAtTime(0, t + tot);
-          g2.gain.linearRampToValueAtTime(0.07, t + tot + 0.04);
-          g2.gain.linearRampToValueAtTime(0, t + tot + d - 0.02);
-          o2.connect(g2);
-          g2.connect(masterGain);
-          o2.start(t + tot);
-          o2.stop(t + tot + d);
-          tot += d;
-        });
-        loopTimer = setTimeout(
-          function () {
-            if (playing) playMelody();
-          },
-          (tot + 0.8) * 1000,
-        );
-      }
-      function stopMusic() {
-        playing = false;
-        if (loopTimer) {
-          clearTimeout(loopTimer);
-          loopTimer = null;
-        }
-        if (ctx) masterGain.gain.setTargetAtTime(0, ctx.currentTime, 0.3);
-      }
-      function startMusic() {
-        if (!ctx) {
-          ctx = new AudioCtx();
-          masterGain = ctx.createGain();
-          masterGain.gain.setValueAtTime(0.7, ctx.currentTime);
-          masterGain.connect(ctx.destination);
-        } else {
-          masterGain.gain.cancelScheduledValues(ctx.currentTime);
-          masterGain.gain.setValueAtTime(0.7, ctx.currentTime);
-        }
-        if (ctx.state === "suspended") {
-          ctx.resume().then(function () {
-            playing = true;
-            playMelody();
-          });
-        } else {
-          playing = true;
-          playMelody();
-        }
-      }
+      /* 🎵 CAMBIO 2: Música con MP3 en lugar de Web Audio API */
+      var audio = document.getElementById("cm-audio");
+      var playing = false;
       var mb = document.getElementById("cm-mb");
       var ml = document.getElementById("cm-mlabel");
 
+      function startMusic() {
+        audio.play().catch(function (e) {
+          console.log("Audio bloqueado:", e);
+        });
+        playing = true;
+      }
+      function stopMusic() {
+        audio.pause();
+        playing = false;
+      }
+
+      /* 🎵 CAMBIO 3: Modal y botón usan las nuevas funciones */
       var modal = document.getElementById("cm-music-modal");
       function closeModal(withMusic) {
         modal.style.transition = "opacity .25s";
